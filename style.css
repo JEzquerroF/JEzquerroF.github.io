@@ -88,7 +88,7 @@ body{
 .btn.small{ padding: 9px 14px; border-radius: 10px; font-weight: 700; }
 .btn.subtle{ background:#101520; }
 
-.socials{ margin-top: 8px; color: var(--muted); }
+.socials{ margin-top: 24px; color: var(--muted); }
 .socials a{ color: var(--text); text-decoration:none; font-weight:600; }
 
 /* ====== Sections ====== */
