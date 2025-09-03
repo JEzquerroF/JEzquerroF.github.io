@@ -165,3 +165,66 @@ body{
 .footer{
   padding: 30px 20px; text-align:center; color: var(--muted); border-top:1px solid var(--border);
 }
+/* ====== Slider ====== */
+.slider {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+.slider img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity .6s ease-in-out;
+}
+
+.slider img.active {
+  opacity: 1;
+}
+
+/* flechas */
+.slider button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,.4);
+  border: none;
+  color: white;
+  font-size: 24px;
+  padding: 6px 10px;
+  cursor: pointer;
+  z-index: 2;
+  border-radius: 6px;
+}
+.slider button.prev { left: 10px; }
+.slider button.next { right: 10px; }
+.slider button:hover { background: rgba(0,0,0,.7); }
+
+/* dots */
+.slider .dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 2;
+}
+
+.slider .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.5);
+  cursor: pointer;
+  transition: background .3s;
+}
+
+.slider .dot.active {
+  background: white;
+}
