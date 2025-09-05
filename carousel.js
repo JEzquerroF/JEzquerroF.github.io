@@ -50,6 +50,9 @@
       if (dots.length) {
         dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
       }
+      if (slider.classList.contains('fill')) {
+        slider.style.setProperty('--slider-bg', `url("${images[index].src}")`);
+      }
     }
 
     function next() {
