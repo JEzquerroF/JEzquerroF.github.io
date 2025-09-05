@@ -225,6 +225,26 @@ body{
   transition: background .3s;
 }
 
+/*Slider Fill*/
 .slider .dot.active {
   background: white;
 }
+/* Relleno con fondo difuminado tomado de la imagen activa */
+.slider.fill { 
+  position: relative;
+  --slider-bg: none; /* la pondrá el JS */
+}
+.slider.fill::before{
+  content:"";
+  position:absolute; inset:0;
+  background: center/cover no-repeat var(--slider-bg);
+  filter: blur(18px) brightness(.85);
+  transform: scale(1.06);
+  z-index: 0;
+}
+.slider.fill img{ 
+  position:absolute; inset:0; 
+  z-index: 1;             /* por encima del fondo difuminado */
+}
+.slider.fill button{ z-index: 2; }   /* flechas por encima */
+
