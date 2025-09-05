@@ -171,8 +171,10 @@ body{
   width: 100%;
   aspect-ratio: 16/9;
   overflow: hidden;
+  isolation: isolate; /* stacking context propio */
 }
 
+/* imágenes por defecto: llenan (recortan) el 16:9 */
 .slider img {
   position: absolute;
   inset: 0;
@@ -181,31 +183,40 @@ body{
   object-fit: cover;
   opacity: 0;
   transition: opacity .6s ease-in-out;
+  pointer-events: none; /* que no tapen clics */
 }
 
-.slider img.active {
-  opacity: 1;
+.slider img.active { opacity: 1; }
+
+/* --- Sliders con imágenes verticales (no recortar) --- */
+.thumb.slider.contain { 
+  background: #0b0f18; /* “bandas” laterales discretas */
+}
+.thumb.slider.contain img {
+  object-fit: contain !important; /* anula el cover global SOLO aquí */
 }
 
-/* flechas */
+/* Flechas */
 .slider button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   background: rgba(0,0,0,.4);
-  border: none;
-  color: white;
+  border: 0;
+  color: #fff;
   font-size: 24px;
   padding: 6px 10px;
   cursor: pointer;
-  z-index: 2;
   border-radius: 6px;
+  z-index: 5;             /* por encima de img y del ::before */
+  pointer-events: auto;
+  user-select: none;
 }
 .slider button.prev { left: 10px; }
 .slider button.next { right: 10px; }
 .slider button:hover { background: rgba(0,0,0,.7); }
 
-/* dots */
+/* Dots (si los usas) */
 .slider .dots {
   position: absolute;
   bottom: 10px;
@@ -213,38 +224,35 @@ body{
   transform: translateX(-50%);
   display: flex;
   gap: 6px;
-  z-index: 2;
+  z-index: 5;            /* encima de la imagen/fondo */
 }
-
 .slider .dot {
   width: 10px;
   height: 10px;
+  padding: 0;            /* reset para evitar “óvalos” */
+  border: 0;
+  line-height: 0;
   border-radius: 50%;
   background: rgba(255,255,255,.5);
   cursor: pointer;
   transition: background .3s;
+  appearance: none;
 }
+.slider .dot.active { background: #fff; }
 
-/*Slider Fill*/
-.slider .dot.active {
-  background: white;
-}
-/* Relleno con fondo difuminado tomado de la imagen activa */
+/* --- Relleno con fondo difuminado (modo fill) --- */
 .slider.fill { 
   position: relative;
-  --slider-bg: none; /* la pondrá el JS */
+  --slider-bg: none;         /* la pone el JS en render() */
 }
-.slider.fill::before{
-  content:"";
-  position:absolute; inset:0;
+.slider.fill::before {
+  content: "";
+  position: absolute; inset: 0;
   background: center/cover no-repeat var(--slider-bg);
   filter: blur(18px) brightness(.85);
   transform: scale(1.06);
-  z-index: 0;
+  z-index: 0;               /* detrás de la imagen */
 }
-.slider.fill img{ 
-  position:absolute; inset:0; 
-  z-index: 1;             /* por encima del fondo difuminado */
-}
-.slider.fill button{ z-index: 2; }   /* flechas por encima */
-
+.slider.fill img { z-index: 1; }
+.slider.fill button,
+.slider.fill .dots { z-index: 5; }
